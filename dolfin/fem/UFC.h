@@ -90,6 +90,15 @@ namespace dolfin
                 const Cell& cell1,
                 const std::vector<double>& vertex_coordinates1,
                 const ufc::cell& ufc_cell1);
+    /// Update current pair of cells for macro element when two forms
+    /// are involved.
+    void update(const Cell& cell0,
+                const std::vector<double>& vertex_coordinates0,
+                const ufc::cell& ufc_cell0,
+		const UFC& b,
+                const Cell& cell1,
+                const std::vector<double>& vertex_coordinates1,
+                const ufc::cell& ufc_cell1);
 
     /// Pointer to coefficient data. Used to support UFC interface.
     const double* const * w() const

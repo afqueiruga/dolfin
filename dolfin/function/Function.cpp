@@ -567,6 +567,7 @@ void Function::restrict(double* w, const FiniteElement& element,
   if (_function_space->has_element(element)
       && _function_space->has_cell(dolfin_cell))
   {
+    // printf("it has the element\n");
     // Get dofmap for cell
     const GenericDofMap& dofmap = *_function_space->dofmap();
     const std::vector<dolfin::la_index>& dofs
@@ -574,18 +575,23 @@ void Function::restrict(double* w, const FiniteElement& element,
 
     if (dofs.size() > 0)
     {
+      // printf("this branch\n");
+    
       // Note: We should have dofmap.max_cell_dimension() == dofs.size() here.
       // Pick values from vector(s)
       _vector->get_local(w, dofs.size(), dofs.data());
     }
     else
     {
+      // printf("a zero dof\n");
+
       // Set dofs to zero (zero extension of function space on a Restriction)
       memset(w, 0, sizeof(*w)*dofmap.max_cell_dimension());
     }
   }
   else
   {
+    // printf("it doesn't have the element\n");
     // Restrict as UFC function (by calling eval)
     restrict_as_ufc_function(w, element, dolfin_cell, vertex_coordinates,
                              ufc_cell);

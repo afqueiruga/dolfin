@@ -82,6 +82,8 @@ void MultiMeshAssembler::assemble(GenericTensor& A, const MultiMeshForm& a)
 void MultiMeshAssembler::_assemble_uncut_cells(GenericTensor& A,
                                                const MultiMeshForm& a)
 {
+  printf("Assembling some uncut cells\n");
+
   // Get form rank
   const std::size_t form_rank = a.rank();
 
@@ -157,6 +159,8 @@ void MultiMeshAssembler::_assemble_uncut_cells(GenericTensor& A,
 void MultiMeshAssembler::_assemble_cut_cells(GenericTensor& A,
                                              const MultiMeshForm& a)
 {
+  printf("Assembling some cut cells\n");
+
   // Get form rank
   const std::size_t form_rank = a.rank();
 
@@ -253,6 +257,8 @@ void MultiMeshAssembler::_assemble_cut_cells(GenericTensor& A,
 void MultiMeshAssembler::_assemble_interface(GenericTensor& A,
                                              const MultiMeshForm& a)
 {
+  printf("Assembling interface cells\n");
+
   // Extract multimesh
   std::shared_ptr<const MultiMesh> multimesh = a.multimesh();
 
@@ -425,7 +431,7 @@ void MultiMeshAssembler::_assemble_overlap(GenericTensor& A,
 {
   // FIXME: This function and assemble_interface are very similar.
   // FIXME: Refactor to improve code reuse.
-
+  printf("Assembling an overlap\n");
   // Extract multimesh
   std::shared_ptr<const MultiMesh> multimesh = a.multimesh();
 
@@ -525,6 +531,8 @@ void MultiMeshAssembler::_assemble_overlap(GenericTensor& A,
           cell_1.get_cell_data(ufc_cell[1], 0);
           cell_0.get_vertex_coordinates(vertex_coordinates[0]);
           cell_1.get_vertex_coordinates(vertex_coordinates[1]);
+	  printf("calling ufc_part.update\n");
+
           ufc_part.update(cell_0, vertex_coordinates[0], ufc_cell[0],
                           cell_1, vertex_coordinates[1], ufc_cell[1]);
 

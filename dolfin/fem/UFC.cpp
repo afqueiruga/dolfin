@@ -188,8 +188,11 @@ void UFC::update(const Cell& c0, const std::vector<double>& vertex_coordinates0,
                  const ufc::cell& ufc_cell1)
 {
   // Restrict coefficients to facet
+  // printf("this is also the function %d\n", coefficients.size());
+
   for (std::size_t i = 0; i < coefficients.size(); ++i)
   {
+    // printf("this is the function\n");
     dolfin_assert(coefficients[i]);
     const std::size_t offset = coefficient_elements[i].space_dimension();
     coefficients[i]->restrict(&_macro_w[i][0], coefficient_elements[i],
@@ -199,3 +202,31 @@ void UFC::update(const Cell& c0, const std::vector<double>& vertex_coordinates0,
   }
 }
 //-----------------------------------------------------------------------------
+// This function assembles a macro element from _two_ UFCs with different 
+// function spaces and functions, but the same element. 
+// (Hopefully the hashes are the same)
+//-----------------------------------------------------------------------------
+void UFC::update(const Cell& c0, const std::vector<double>& vertex_coordinates0,
+                 const ufc::cell& ufc_cell0,
+		 const UFC& b,
+                 const Cell& c1, const std::vector<double>& vertex_coordinates1,
+                 const ufc::cell& ufc_cell1)
+{
+  // Restrict coefficients to facet
+  // printf("this is my new function %d\n", coefficients.size());
+  
+  for (std::size_t i = 0; i < coefficients.size(); ++i)
+  {
+    dolfin_assert(coefficients[i]);
+    dolfin_assert(b.coefficients[i]);
+    // printf("the matching hashes are: %d  --- %d\n",
+    // 	   coefficient_elements[i].hash(), 
+    // 	   b.coefficient_elements[i].hash());
+
+    const std::size_t offset = coefficient_elements[i].space_dimension();
+    coefficients[i]->restrict(&_macro_w[i][0], coefficient_elements[i],
+                              c0, vertex_coordinates0.data(), ufc_cell0);
+    b.coefficients[i]->restrict(&_macro_w[i][0] + offset, b.coefficient_elements[i],
+                              c1, vertex_coordinates1.data(), ufc_cell1);
+  }
+}

@@ -336,10 +336,14 @@ std::vector<dolfin::la_index> DofMap::dofs() const
   std::vector<std::vector<dolfin::la_index>>::const_iterator cell_dofs;
   for (cell_dofs = _dofmap.begin(); cell_dofs != _dofmap.end(); ++cell_dofs)
   {
+
     for (std::size_t i = 0; i < cell_dofs->size(); ++i)
     {
+
+
       const la_index dof = (*cell_dofs)[i];
-      if (dof >= 0 && dof < _local_ownership_size)
+      // BUGFIX: This 'if' is incompatible with MultiMeshDofMap alterations. -AFQ
+      //if (dof >= 0 && dof < _local_ownership_size)
         _dofs.push_back(dof + _global_offset);
     }
   }

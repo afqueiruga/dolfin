@@ -230,3 +230,17 @@ void UFC::update(const Cell& c0, const std::vector<double>& vertex_coordinates0,
                               c1, vertex_coordinates1.data(), ufc_cell1);
   }
 }
+//-----------------------------------------------------------------------------
+void UFC::dbg_print_macro_W()
+{
+  std::cout << "Dumping UFC's macro cell\n";
+  for (std::size_t i = 0; i < _macro_w.size(); ++i)
+  {
+    for (std::size_t j = 0; j < _macro_w[i].size(); ++j) 
+      {
+	std::cout << _macro_w[i][j] << ", ";
+      }
+    std::cout << std::endl;
+  }
+
+}

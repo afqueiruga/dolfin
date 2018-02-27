@@ -114,6 +114,9 @@ namespace dolfin
     const double* const * macro_w() const
     { return &macro_w_pointer[0]; }
 
+    /// Prints out the macro data to debug.
+    void dbg_print_macro_W();
+
   private:
 
     // Finite elements for coefficients

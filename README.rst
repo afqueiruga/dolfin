@@ -2,6 +2,11 @@
 DOLFIN
 ======
 
+This is afq's fork of dolfin. It contains a few extra routines for
+fetching data from multiple cells to facilitate assembling over
+contact integrals, which is in my `BroadcastAssembler` module. The
+changes are isolated on the woefully nondescript `debugging` brach.
+
 DOLFIN is the C++/Python interface of FEniCS, providing a consistent
 PSE (Problem Solving Environment) for ordinary and partial
 differential equations.
